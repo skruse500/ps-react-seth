@@ -10,7 +10,7 @@ var paths = {
     output: path.join(__dirname, '../config', 'componentData.js')
 };
 
-const enableWatchMode = process.argv.slice(2) === '--watch';
+const enableWatchMode = process.argv.slice(2) == '--watch';
 if (enableWatchMode) {
     // Regenerate component metadata when components or examples change.
     chokidar.watch([paths.examples, paths.components]).on('change', function(event, path) {
@@ -22,15 +22,15 @@ if (enableWatchMode) {
 }
 
 function generate(paths) {
-    var errors = [];
-    var componentData = getDirectories(paths.components).map(function(componentName) {
-        try {
-            return getComponentData(paths, componentName)
-        } catch(error) {
-            errors.push('An error occurred while attempting to generate metadata for ' + componentName + '. ' + error);
+	var errors = [];
+	var componentData = getDirectories(paths.components).map(function(componentName) {
+		try {
+			return getComponentData(paths, componentName)
+		} catch(error) {
+			errors.push('An error occurred while attempting to generate metadata for ' + componentName + '. ' + error);
         }
-    });
-    writeFile(paths.output, "module.exports = " + JSON.stringify(errors.length ? errors : componentData));
+	});
+	writeFile(paths.output, "module.exports = " + JSON.stringify(errors.length ? errors : componentData));
 }
 
 function getComponentData(paths, componentName) {
